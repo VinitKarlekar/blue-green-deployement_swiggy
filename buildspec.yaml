@@ -37,7 +37,6 @@ phases:
       - echo "Running SonarQube analysis result"
       # Using the SONAR_TOKEN injected from AWS Parameter Store
       - sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=. -Dsonar.host.url=http://34.197.103.86:9000/ -Dsonar.login=$SONAR_TOKEN
-      - "aws ses send-email --from vinitkarlekar84474@gmail.com --to vinitkarlekar84474@gmail.com --subject \"CodeBuild Status: $CODEBUILD_BUILD_ID\" --text \"Build status: $CODEBUILD_BUILD_STATUS\" --region us-east-1"
 
 artifacts:
   files:
