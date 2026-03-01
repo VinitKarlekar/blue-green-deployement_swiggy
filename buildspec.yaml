@@ -17,13 +17,13 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - echo "Performing Trivy file scan before building the image..."
-      - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
-      - tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
+      - wget https://github.com/aquasecurity/trivy/releases/download/v0.49.1/trivy_0.49.1_Linux-64bit.tar.gz
+      - tar zxvf trivy_0.49.1_Linux-64bit.tar.gz
       - export PATH=$PATH:$PWD
       - trivy filesystem --exit-code 0 --no-progress . >> trivyfilescan.txt
       - echo "Downloading and installing OWASP Dependency-Check..."
-      - wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.2/dependency-check-7.0.2-release.zip
-      - unzip dependency-check-7.0.2-release.zip
+      - wget https://github.com/jeremylong/DependencyCheck/releases/download/v9.0.9/dependency-check-9.0.9-release.zip
+      - unzip dependency-check-9.0.9-release.zip
       # Uncommenting Sonar Scanner download steps
       - export SONAR_SCANNER_VERSION=4.7.0.2747
       - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
@@ -43,7 +43,7 @@ phases:
   post_build:
     commands:
       - echo "Performing Trivy image scan after building the image..."
-      - trivy image "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
+      - ./trivy image "$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
       - echo "Running OWASP Dependency-Check scan..."
       - cd dependency-check/bin
       - ./dependency-check.sh --scan ../../ --format HTML
